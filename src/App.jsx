@@ -19,7 +19,7 @@ import { useDispatch } from "react-redux";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    const idTokenResult = localStorage.token;
+    const idTokenResult = localStorage.getItem("token");
     if (idTokenResult) {
       const response = getUserData(idTokenResult);
       dispatch({
