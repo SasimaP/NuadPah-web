@@ -130,7 +130,7 @@ function ReportManage() {
                       {data.title}
                     </td>
                     <td className="h-[70px] table-cell text-left align-middle px-4">
-                    {data.firstname} {data.lastname}
+                      {data.firstname} {data.lastname}
                     </td>
                     <td className="h-[70px] table-cell text-left align-middle px-4 text-[13px] font-medium text-white">
                       {(() => {
@@ -153,12 +153,7 @@ function ReportManage() {
                                 <p>completed</p>
                               </div>
                             );
-                          case "Completed":
-                            return (
-                              <div className="px-2 py-0 rounded-2xl bg-[#5A7654] flex items-center justify-center border border-solid border-white">
-                                <p>completed</p>
-                              </div>
-                            );
+
                           default:
                             return (
                               <div className="px-2 py-0 rounded-2xl bg-[#54174E] flex items-center justify-center border border-solid border-white">
