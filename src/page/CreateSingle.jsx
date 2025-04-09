@@ -3,10 +3,9 @@ import Nav from "../components/Nav";
 import IconCom from "../components/IconCom";
 import axios from "axios";
 
-
 import { Link, useNavigate } from "react-router-dom";
 
-import { addSingleMassageDetail } from "../api/massage";
+import { addSingleMassageDetail } from "../api/admin";
 
 function CreateSingle() {
   const [previewImage1, setPreviewImage1] = useState(null);
