@@ -10,9 +10,28 @@ import CreateSet from "./page/CreateSet";
 import EditSet from "./page/EditSet";
 import SignIn from "./page/SignIn";
 
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { getUserData } from "../api/auth";
+
+import { useDispatch } from "react-redux";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const idTokenResult = localStorage.token;
+    if (idTokenResult) {
+      const response = getUserData(idTokenResult);
+      dispatch({
+        type: "SIGNIN",
+        payload: {
+          userData: response.data,
+          token: idTokenResult,
+        },
+      });
+    }
+  });
+
   return (
     <Routes>
       <Route path="/singlemanage" element={<SingleManage />}></Route>

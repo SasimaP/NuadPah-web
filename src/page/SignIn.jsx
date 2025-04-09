@@ -30,14 +30,12 @@ function SignIn() {
 
       const res = await signIn(email, password);
 
-      const { data } = await getUserData(res.data);
+      const token = res.data;
 
-      dispatch({
-        type: "SIGNIN",
-        payload: data,
-      });
+      localStorage.setItem("token", token);
 
       alert("เข้าสู่ระบบสำเร็จ");
+
       // // Mock SignIn logic
       // if (values.ำทฟรส === "admin" && values.password === "password") {
       //   alert("SignIn successful!");
