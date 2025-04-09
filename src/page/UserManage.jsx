@@ -7,9 +7,6 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 function UserManage() {
   const [userData, setUserData] = useState([]);
   const [fetchTrigger, setFetchTrigger] = useState(0);
-  const navigate = useNavigate();
-
-  const api = import.meta.env.VITE_API_URL;
 
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
@@ -21,13 +18,14 @@ function UserManage() {
     : [];
 
   const [showPopup, setShowPopup] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
     // Fetch data from the backend
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${api}/admin/get-users`);
+        const res = await axios.get(
+          `https://senuadpahdocker-production.up.railway.app/admin/get-users`
+        );
         console.log("User Data", res.data);
         setUserData(res.data);
       } catch (error) {
@@ -38,9 +36,8 @@ function UserManage() {
     fetchUser();
   }, [fetchTrigger]);
 
-  const togglePopup = (user) => {
+  const togglePopup = () => {
     setShowPopup(!showPopup);
-    setSelectedUser(user);
 
     // Toggle body scrolling
     document.body.style.overflow = showPopup ? "auto" : "hidden";
@@ -62,7 +59,9 @@ function UserManage() {
     const confirmed = window.confirm("Are you sure to delete this massage?");
     if (confirmed) {
       try {
-        await axios.delete(`${api}/admin/delete-user/${id}`);
+        await axios.delete(
+          `https://senuadpahdocker-production.up.railway.app/admin/delete-user/${id}`
+        );
         setFetchTrigger((prev) => prev + 1);
         console.log("User deleted successfully");
         // Handle successful deletion
@@ -78,7 +77,7 @@ function UserManage() {
       <Nav className="z-20" />
       <div className="mt-[120px] px-2 sm:px-4 lg:px-6 max-w-[1440px] mx-auto h-full">
         <p className="font-medium text-[#C0A172] text-[35px] md:text-[40px] my-[30px]">
-          Manage Users
+          บัญชีผู้ใช้
         </p>
         <div className="min-h-[840px] max-h-[840px] min-w-[382px] max-w-[1440px] h-full w-full rounded-md flex flex-col">
           <div className="block md:hidden">
@@ -107,13 +106,13 @@ function UserManage() {
               <thead className="table-header-group">
                 <tr className="md:table-row hidden">
                   <th className="h-[70px] table-cell text-left align-middle px-4 font-medium">
-                    Name
+                    ชื่อ
                   </th>
                   <th className="h-[70px] table-cell text-left align-middle px-4 font-medium">
-                    Email
+                    อีเมล
                   </th>
                   <th className="h-[70px] table-cell text-left align-middle px-4 font-medium">
-                    Role
+                    บทบาท
                   </th>
                   <th className="h-[70px] table-cell text-left align-middle px-4"></th>
                 </tr>
@@ -132,9 +131,6 @@ function UserManage() {
                               className="object-cover min-h-[45px] min-w-[45px] h-full w-full rounded-full"
                             />
                           </div>
-                          <p className="truncate overflow-hidden whitespace-nowrap">
-                            {user.username}
-                          </p>
                         </div>
                       </td>
 
@@ -177,7 +173,7 @@ function UserManage() {
               <IconCom icon="left" size="22" />
             </button>
             <p className="text-[#C0A172] text-[16px] font-medium">
-              Page {currentPage} of {totalPages}
+              หน้า {currentPage} จาก {totalPages}
             </p>
             <button
               onClick={nextPage}

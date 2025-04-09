@@ -78,7 +78,7 @@ function Nav() {
                   : "hover:border-b-4"
               }`}
             >
-              จัดการผู้ใช้
+              จัดการบัญชีผู้ใช้
             </Link>
             <Link
               to="/reportmanage"
