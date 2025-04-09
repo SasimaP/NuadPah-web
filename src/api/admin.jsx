@@ -29,4 +29,15 @@ const deleteSingleMassage = async (mt_id) => {
   }
 };
 
-export { addSingleMassageDetail, deleteSingleMassage };
+const deleteSetMassage = async (ms_id) => {
+  try {
+    const response = await api.delete(`/admin/delete-set-massage/:${ms_id}`);
+    console.log("Delete Set Massage response:", response);
+    return response;
+  } catch (error) {
+    console.error("Delete Set Massage error:", error.response || error);
+    throw error;
+  }
+};
+
+export { addSingleMassageDetail, deleteSingleMassage, deleteSetMassage };

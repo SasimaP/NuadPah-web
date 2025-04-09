@@ -4,7 +4,8 @@ import Nav from "../components/Nav";
 
 import { Link } from "react-router-dom";
 
-import { fetchSetMassageList, deleteSetMassage } from "../api/massage";
+import { fetchSetMassageList } from "../api/massage";
+import { deleteSetMassage } from "../api/admin";
 
 function SetofManage() {
   const [massagedata, setMassagedata] = useState([]);
