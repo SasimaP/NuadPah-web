@@ -4,7 +4,7 @@ import Nav from "../components/Nav";
 
 import { useDispatch } from "react-redux";
 
-import { signInHandler } from "../api/auth";
+import { signIn, getUserData } from "../api/auth";
 
 function SignIn() {
   const [userData, setUserData] = useState({
@@ -28,11 +28,13 @@ function SignIn() {
     try {
       const { email, password } = userData;
 
-      const res = await signInHandler(email, password);
+      const res = await signIn(email, password);
+
+      const { data } = await getUserData(res.data);
 
       dispatch({
         type: "SIGNIN",
-        payload: res.data,
+        payload: data,
       });
 
       alert("เข้าสู่ระบบสำเร็จ");

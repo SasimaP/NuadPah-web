@@ -1,6 +1,6 @@
 import api from "../axios";
 
-const signInHandler = async (email, password) => {
+const signIn = async (email, password) => {
   try {
     const response = await api.post("/auth/signin", {
       email,
@@ -14,4 +14,25 @@ const signInHandler = async (email, password) => {
   }
 };
 
-export { signInHandler };
+const getUserData = async (token) => {
+  try {
+    const response = await api.post(
+      "/auth/userdata",
+      {
+        userEmail: "",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("User data response:", response);
+    return response;
+  } catch (error) {
+    console.error("Get user data error:", error.response || error);
+    throw error;
+  }
+};
+
+export { signIn, getUserData };
