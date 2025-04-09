@@ -1,14 +1,9 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
 import Nav from "../components/Nav";
 import IconCom from "../components/IconCom";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-
-function UserProfile() {
-  const { id } = useParams();
-
-  return <h1>User ID: {id}</h1>;
-}
 
 function EditSingleMassage() {
   const [previewImage1, setPreviewImage1] = useState(null);
@@ -25,14 +20,15 @@ function EditSingleMassage() {
 
   const navigate = useNavigate();
 
-  const api = import.meta.env.VITE_API_URL;
-
   useEffect(() => {
     async function fetchMassage() {
       try {
-        const res = await axios.post(`${api}/massage/single-detail`, {
-          mt_id: id,
-        });
+        const res = await axios.post(
+          "https://senuadpahdocker-production.up.railway.app/massage/massage/single-detail",
+          {
+            mt_id: id,
+          }
+        );
         const data = res.data;
         console.log(data);
 
@@ -60,7 +56,7 @@ function EditSingleMassage() {
 
       try {
         const upload_response = await axios.post(
-          `${api}/image/upload`,
+          "https://senuadpahdocker-production.up.railway.app/massage/image/upload",
           formData,
           {
             headers: {
@@ -101,8 +97,12 @@ function EditSingleMassage() {
     console.log(updateData);
 
     axios
-      .put(`${api}/admin/edit-single-massage/${id}`, updateData)
-      .then((res) => {
+      .put(
+        `https://senuadpahdocker-production.up.railway.app/massage/admin/edit-single-massage/${id}`,
+        updateData
+      )
+      .then(() => {
+        console.log("Data submitted successfully");
         window.location.reload();
       })
       .catch((err) => console.log(err));
@@ -121,11 +121,11 @@ function EditSingleMassage() {
               className="flex px-3 py-2 rounded-lg items-center border-2 border-solid border-[#C0A172] text-[#C0A172] transition-all duration-300 hover:bg-[#DBDBDB]"
             >
               <IconCom icon="left" size="18" />
-              <p className="ml-[2px] text-[14px]">Back</p>
+              <p className="ml-[2px] text-[14px]">กลับ</p>
             </Link>
             <div className="ml-[15px] flex flex-col justify-evenly h-full">
               <p className="text-[#C0A172] font-medium text-[20px]">
-                Edit Single Massage
+                แก้ไขท่านวดเดี่ยว
               </p>
             </div>
           </div>
@@ -135,7 +135,7 @@ function EditSingleMassage() {
           >
             <div className="hidden md:flex w-full h-full">
               <div className="w-1/2 h-full text-black text-[14px] font-medium">
-                <p className="mb-[10px]">Image</p>
+                <p className="mb-[10px]">รูป</p>
                 <div className="w-full rounded-md aspect-square bg-[#DBDBDB] my-[10px] relative">
                   {previewImage1 ? (
                     <img
@@ -160,17 +160,17 @@ function EditSingleMassage() {
                 ></input>
               </div>
               <div className="w-1/2 h-full pl-[20px] text-white text-[14px] font-medium">
-                <p className="mb-[10px] text-black">Name Massage</p>
+                <p className="mb-[10px] text-black">ชื่อท่านวด</p>
                 <input
                   type="text"
                   value={namemassage}
                   onChange={(e) => setNamemassage(e.target.value)}
                   name="namemassage"
-                  placeholder="Name Massage"
+                  placeholder="ระบุชื่อท่านวด"
                   className="h-[40px] w-full rounded-md pl-2 bg-[#DBDBDB] text-black focus:outline-none
                 focus:ring-0 focus:ring-[#DBDBDB] focus:ring-offset-2 focus:ring-offset-[#C0A172]"
                 />
-                <p className="mt-[15px] mb-[10px] text-black">Detail</p>
+                <p className="mt-[15px] mb-[10px] text-black">รายละเอียด</p>
                 <textarea
                   type="text"
                   value={detailmassage}
@@ -182,7 +182,7 @@ function EditSingleMassage() {
                   rows="8"
                   placeholder="Tell about massage"
                 ></textarea>
-                <p className="mt-[15px] mb-[10px] text-black">Type</p>
+                <p className="mt-[15px] mb-[10px] text-black">ประเภท</p>
                 <select
                   value={typemassage}
                   onChange={(e) => setTypemassage(e.target.value)}
@@ -190,12 +190,16 @@ function EditSingleMassage() {
                   className="h-[40px] w-full rounded-md px-2 bg-[#DBDBDB] text-black focus:outline-none
                 focus:ring-0 focus:ring-[#DBDBDB] focus:ring-offset-2 focus:ring-offset-[#C0A172]"
                 >
-                  <option>Select Type</option>
-                  <option value="back">Back</option>
-                  <option value="shoulder">Shoulder</option>
-                  <option value="neck">Neck</option>
+                  <option>กรุณาเลือกท่านวด</option>
+                  <option value="neck">คอ</option>
+                  <option value="shoulder">บ่า ไหล่</option>
+                  <option value="back">หลัง</option>
+                  <option value="back">แขน</option>
+                  <option value="shoulder">ขา</option>
                 </select>
-                <p className="mt-[15px] mb-[10px] text-black">Time</p>
+                <p className="mt-[15px] mb-[10px] text-black">
+                  เวลาเรียนโดยประมาณ
+                </p>
                 <select
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
@@ -203,26 +207,26 @@ function EditSingleMassage() {
                   className="h-[40px] w-full rounded-md px-2 bg-[#DBDBDB] text-black focus:outline-none
                 focus:ring-0 focus:ring-[#DBDBDB] focus:ring-offset-2 focus:ring-offset-[#C0A172]"
                 >
-                  <option>Select Time</option>
-                  <option value="5">5</option>
-                  <option value="10">10</option>
-                  <option value="15">15</option>
-                  <option value="20">20</option>
+                  <option>กรุณาเลือกเวลา</option>
+                  <option value="5">5 นาที</option>
+                  <option value="10">10 นาที</option>
+                  <option value="15">15 นาที</option>
+                  <option value="20">20 นาที</option>
                 </select>
 
-                <p className="mt-[15px] mb-[10px] text-black">Round</p>
+                <p className="mt-[15px] mb-[10px] text-black">จำนวนรอบ</p>
                 <input
                   type="number"
                   value={round}
                   onChange={(e) => setRound(e.target.value)}
                   name="locationname"
-                  placeholder="Type Number"
+                  placeholder="ระบุจำนวนรอบ"
                   className="h-[40px] w-full rounded-md pl-2 bg-[#DBDBDB] text-black focus:outline-none
                 focus:ring-0 focus:ring-[#DBDBDB] focus:ring-offset-2 focus:ring-offset-[#C0A172]"
                 />
 
                 <button className="h-[40px] w-full rounded-lg mt-[40px] bg-[#C0A172] text-[18px] text-center font-medium text-white transition-all duration-300 hover:bg-[#C0A172]">
-                  Save
+                  บันทึก
                 </button>
               </div>
             </div>

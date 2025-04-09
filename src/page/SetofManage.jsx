@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
 import IconCom from "../components/IconCom";
 import Nav from "../components/Nav";
-import axios from "axios";
 
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+import { fetchSetMassageList, deleteSetMassage } from "../api/massage";
 
 function SetofManage() {
-  const navigate = useNavigate();
-
-  const [data, setData] = useState([]);
-
-  const api = `${import.meta.env.VITE_API_URL}`;
-
   const [massagedata, setMassagedata] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [fetchTrigger, setFetchTrigger] = useState(0);
@@ -27,18 +22,18 @@ function SetofManage() {
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
-    const fetchMassage = async () => {
-      try {
-        const res = await axios.get(`${api}/massage/set-list`);
-        console.log("Set Massage Data", res.data);
-        setMassagedata(res.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
     fetchMassage();
   }, [fetchTrigger]);
+
+  const fetchMassage = async () => {
+    try {
+      const res = await fetchSetMassageList();
+      console.log("Set Massage Data", res.data);
+      setMassagedata(res.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const togglePopup = (event) => {
     setShowPopup(!showPopup);
@@ -61,10 +56,10 @@ function SetofManage() {
   };
 
   const handleDelete = async (id) => {
-    const confirmed = window.confirm("Are you sure to delete this massage?");
+    const confirmed = window.confirm("ยืนยันที่จะลบท่านวดนี้หรือไม่ ?");
     if (confirmed) {
       try {
-        await axios.delete(`${api}/admin/delete-set-massage/${id}`);
+        await deleteSetMassage(id);
         setFetchTrigger((prev) => prev + 1);
         console.log("Massage Set deleted successfully");
       } catch (error) {
@@ -80,26 +75,26 @@ function SetofManage() {
         <div className="hidden sm:block my-[30px]">
           <div className="flex justify-between items-center">
             <p className="font-medium text-[#C0A172] text-[35px] md:text-[40px]">
-              Manage Set of Massages
+              เซตท่านวด
             </p>
             <Link
               to="/createset"
               className="min-h-[40px] max-h-[40px] h-full px-2 bg-[#C0A172] flex justify-center items-center rounded-md text-white font-medium transition-all duration-300 hover:bg-[#C0A172]"
             >
-              + Create Set of Massage
+              + เพิ่มเซตท่านวด
             </Link>
           </div>
         </div>
         <div className="block sm:hidden my-[30px]">
           <div className="flex flex-col">
             <p className="font-medium text-[#C0A172] text-[35px] md:text-[40px] mb-[20px]">
-              Manage Set of Massages
+              เซตท่านวด
             </p>
             <Link
               to="/createset"
               className="min-h-[40px] max-h-[40px] h-full min-w-[150px] max-w-[200px] w-full bg-[#C0A172] flex justify-center items-center rounded-md text-white font-medium"
             >
-              + Create Set of Massage
+              + เพิ่มเซตท่านวด
             </Link>
           </div>
         </div>
@@ -114,7 +109,7 @@ function SetofManage() {
                 <IconCom icon="left" size="22" />
               </button>
               <p className="text-[#C0A172] text-[16px] font-medium">
-                Page {currentPage} of {totalPages}
+                หน้า {currentPage} จาก {totalPages}
               </p>
               <button
                 onClick={nextPage}
@@ -129,17 +124,14 @@ function SetofManage() {
             <thead className="table-header-group">
               <tr className="md:table-row hidden">
                 <th className="h-[70px] table-cell text-left align-middle px-4 font-medium">
-                  Name Maasage
+                  ชื่อเซตท่านวด
                 </th>
                 <th className="h-[70px] table-cell text-left align-middle px-4 font-medium">
-                  Time
+                  เวลาเรียนโดยประมาณ
                 </th>
                 <th className="h-[70px] table-cell text-left align-middle px-4 font-medium">
-                  Type
+                  ประเภท
                 </th>
-                {/* <th className="h-[70px] table-cell text-left align-middle px-4 font-medium">
-                  Created At
-                </th> */}
                 <th className="h-[70px] table-cell text-left align-middle px-4"></th>
               </tr>
             </thead>
@@ -223,7 +215,7 @@ function SetofManage() {
               <IconCom icon="left" size="22" />
             </button>
             <p className="text-[#C0A172] text-[16px] font-medium">
-              Page {currentPage} of {totalPages}
+              หน้า {currentPage} จาก {totalPages}
             </p>
             <button
               onClick={nextPage}
@@ -246,7 +238,7 @@ function SetofManage() {
           <div className="fixed z-20 bottom-0 inset-x-0 flex items-center justify-center mb-5">
             <div className="px-5 py-3 w-full h-full max-w-[420px] max-h-[170px] bg-[#C0A172] rounded-md shadow-lg text-white">
               <div className="flex justify-between py-2">
-                <p className="font-medium text-[20px]">Select</p>
+                <p className="font-medium text-[20px]">เลือก</p>
                 <button
                   onClick={togglePopup}
                   className="flex items-center justify-center w-[30px] h-[30px] rounded-full bg-white text-[#C0A172] hover:bg-[#FF5757]"
@@ -260,14 +252,14 @@ function SetofManage() {
                 className="transition-all duration-300 mb-2 w-full flex items-center px-4 py-3 text-sm text-left rounded-md hover:bg-[#DBDBDB]"
               >
                 <IconCom icon="edit" />
-                <p className="ml-[10px] text-[16px] font-medium">Edit</p>
+                <p className="ml-[10px] text-[16px] font-medium">แก้ไข</p>
               </Link>
               <button
                 onClick={() => selectedEvent && handleDelete(selectedEvent._id)}
                 className="transition-all duration-300 flex w-full items-center px-4 py-3 text-sm text-left bg-[#FF5757] rounded-md hover:bg-[#FF5757]"
               >
                 <IconCom icon="trash" />
-                <p className="ml-[10px] text-[16px] font-medium">Delete</p>
+                <p className="ml-[10px] text-[16px] font-medium">ลบ</p>
               </button>
             </div>
           </div>

@@ -1,15 +1,10 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
 import Nav from "../components/Nav";
 import IconCom from "../components/IconCom";
 import { ChevronDown } from "lucide-react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-
-function UserProfile() {
-  const { id } = useParams();
-
-  return <h1>User ID: {id}</h1>;
-}
 
 function EditSetOfMassage() {
   const [setData, setSetData] = useState({ ms_name: "", ms_detail: "" });
@@ -22,12 +17,10 @@ function EditSetOfMassage() {
 
   const navigate = useNavigate();
 
-  const api = import.meta.env.VITE_API_URL;
-
   useEffect(() => {
     fetchSingleList();
     editSetOfMassage();
-  }, []);
+  }, [id]);
 
   const getAvailableOptions = (upmassage = null) => {
     const current_mt_ids = updateMassage
@@ -51,7 +44,9 @@ function EditSetOfMassage() {
 
   const fetchSingleList = async () => {
     try {
-      const res = await axios.get(`${api}/massage/single-list`);
+      const res = await axios.get(
+        "https://senuadpahdocker-production.up.railway.app/massage/single-list"
+      );
       const data = res.data;
 
       setSingleMassages(data);
@@ -62,9 +57,12 @@ function EditSetOfMassage() {
 
   const editSetOfMassage = async () => {
     try {
-      const res = await axios.post(`${api}/massage/set-detail`, {
-        ms_id: id,
-      });
+      const res = await axios.post(
+        "https://senuadpahdocker-production.up.railway.app/massage/set-detail",
+        {
+          ms_id: id,
+        }
+      );
       const dataInSet = res.data.massageTechniqueDetails;
 
       while (dataInSet.length < 3) {
@@ -114,7 +112,7 @@ function EditSetOfMassage() {
     // console.log("Submit Data:", formData);
     try {
       const response = await axios.put(
-        `${api}/admin/edit-set-massage/${id}`,
+        `https://senuadpahdocker-production.up.railway.app/admin/edit-set-massage/${id}`,
         formData
       );
       console.log("Data submitted successfully:", response.data);
@@ -135,11 +133,11 @@ function EditSetOfMassage() {
               className="flex px-3 py-2 rounded-lg items-center border-2 border-solid border-[#C0A172] text-[#C0A172] transition-all duration-300 hover:bg-[#DBDBDB]"
             >
               <IconCom icon="left" size="18" />
-              <p className="ml-[2px] text-[14px]">Back</p>
+              <p className="ml-[2px] text-[14px]">กลับ</p>
             </Link>
             <div className="ml-[15px] flex flex-col justify-evenly h-full">
               <p className="text-[#C0A172] font-medium text-[20px]">
-                Edit Set of Massage
+                แก้ไขเซตท่านวด
               </p>
             </div>
           </div>
@@ -149,7 +147,7 @@ function EditSetOfMassage() {
           >
             <div className="hidden md:flex w-full h-full">
               <div className="w-1/2 h-full text-black text-[14px] font-medium">
-                <p className="mb-[10px]">Select Single Massage</p>
+                <p className="mb-[10px]">ท่านวดในเซต</p>
 
                 {updateMassage.map((upmassage, index) => {
                   return (
@@ -174,9 +172,7 @@ function EditSetOfMassage() {
                             <span>{upmassage.mt_name}</span>
                           </div>
                         ) : (
-                          <span className="text-black">
-                            Select single massage
-                          </span>
+                          <span className="text-black">เลือกท่านวด</span>
                         )}
                         <ChevronDown className="w-5 h-5 text-black" />
                       </div>
@@ -226,7 +222,7 @@ function EditSetOfMassage() {
                 })}
               </div>
               <div className="w-1/2 h-full pl-[20px] text-white text-[14px] font-medium">
-                <p className="mb-[10px] text-black">Name Set of Massage</p>
+                <p className="mb-[10px] text-black">ชื่อเซตท่านวด</p>
                 <input
                   type="text"
                   value={setData.ms_name}
@@ -237,11 +233,11 @@ function EditSetOfMassage() {
                     }))
                   }
                   name="ms_name"
-                  placeholder="Name Massage"
+                  placeholder="แก้ไขชื่อเซต"
                   className="h-[40px] w-full rounded-md pl-2 bg-[#DBDBDB] text-black focus:outline-none
                 focus:ring-0 focus:ring-[#DBDBDB] focus:ring-offset-2 focus:ring-offset-[#C0A172]"
                 />
-                <p className="mt-[15px] mb-[10px] text-black">Detail</p>
+                <p className="mt-[15px] mb-[10px] text-black">รายละเอียด</p>
                 <textarea
                   type="text"
                   value={setData.ms_detail}
@@ -256,11 +252,11 @@ function EditSetOfMassage() {
                   focus:ring-0 focus:ring-[#DBDBDB] focus:ring-offset-2 focus:ring-offset-[#C0A172]"
                   id=""
                   rows="8"
-                  placeholder="Tell about massage"
+                  placeholder="แก้ไขรายละเอียด"
                 ></textarea>
 
                 <button className="h-[40px] w-full rounded-lg mt-[40px] bg-[#C0A172] text-[18px] text-center font-medium text-white transition-all duration-300 hover:bg-[#C0A172]">
-                  Save
+                  บันทึก
                 </button>
               </div>
             </div>

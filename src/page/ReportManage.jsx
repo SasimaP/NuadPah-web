@@ -3,14 +3,11 @@ import IconCom from "../components/IconCom";
 import Nav from "../components/Nav";
 import axios from "axios";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function ReportManage() {
-  const navigate = useNavigate();
-
   const [reportData, setReportData] = useState([]);
 
-  const api = `${import.meta.env.VITE_API_URL}`;
   const [fetchTrigger, setFetchTrigger] = useState(0);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,7 +23,9 @@ function ReportManage() {
     // Fetch data from the backend
     const fetchData = async () => {
       try {
-        const res = await axios.get(`${api}/admin/reports`); // Replace with your API endpoint
+        const res = await axios.get(
+          "https://senuadpahdocker-production.up.railway.app/admin/reports"
+        ); // Replace with your API endpoint
         console.log("Report Data", res.data);
         setReportData(res.data);
       } catch (error) {
@@ -49,7 +48,9 @@ function ReportManage() {
     const confirmed = window.confirm("Are you sure to delete this massage?");
     if (confirmed) {
       try {
-        await axios.delete(`${api}/admin/delete-report/${id}`);
+        await axios.delete(
+          `https://senuadpahdocker-production.up.railway.app/admin/delete-report/${id}`
+        );
         setFetchTrigger((prev) => prev + 1);
         console.log("Report deleted successfully");
       } catch (error) {
@@ -65,14 +66,14 @@ function ReportManage() {
         <div className="hidden sm:block my-[30px]">
           <div className="flex justify-start items-center">
             <p className="font-medium text-[#C0A172] text-[35px] md:text-[40px]">
-              Manage Report
+              รายงานจากผู้ใช้
             </p>
           </div>
         </div>
         <div className="block sm:hidden my-[30px]">
           <div className="flex flex-col">
             <p className="font-medium text-[#C0A172] text-[35px] md:text-[40px] mb-[20px]">
-              Manage Report
+              รายงานจากผู้ใช้
             </p>
           </div>
         </div>
@@ -87,7 +88,7 @@ function ReportManage() {
                 <IconCom icon="left" size="22" />
               </button>
               <p className="text-[#C0A172] text-[16px] font-medium">
-                Page {currentPage} of {totalPages}
+                หน้า {currentPage} จาก {totalPages}
               </p>
               <button
                 onClick={nextPage}
@@ -102,20 +103,18 @@ function ReportManage() {
             <thead className="table-header-group">
               <tr className="md:table-row hidden">
                 <th className="h-[70px] table-cell text-left align-middle px-4 font-medium">
-                  No.
+                  รายงานที่
                 </th>
                 <th className="h-[70px] table-cell text-left align-middle px-4 font-medium">
-                  Name Report
+                  หัวข้อรายงาน
                 </th>
                 <th className="h-[70px] table-cell text-left align-middle px-4 font-medium">
-                  Name Reporter
+                  ชื่อผู้รายงาน
                 </th>
                 <th className="h-[70px] table-cell text-left align-middle px-4 font-medium">
-                  Status
+                  สถานะ
                 </th>
-                {/* <th className="h-[70px] table-cell text-left align-middle px-4 font-medium">
-                  Created At
-                </th> */}
+
                 <th className="h-[70px] table-cell text-left align-middle px-4"></th>
               </tr>
             </thead>
@@ -138,19 +137,19 @@ function ReportManage() {
                           case "Pending":
                             return (
                               <div className="px-2 py-0 rounded-2xl bg-[#B1B1B1] flex items-center justify-center border border-solid border-white">
-                                <p>pending</p>
+                                <p>รอดำเนินการ</p>
                               </div>
                             );
                           case "Processing":
                             return (
                               <div className="px-2 py-0 rounded-2xl bg-[#C0A172] flex items-center justify-center border border-solid border-white">
-                                <p>processing</p>
+                                <p>กำลังเดินการ</p>
                               </div>
                             );
                           case "Completed":
                             return (
                               <div className="px-2 py-0 rounded-2xl bg-[#5A7654] flex items-center justify-center border border-solid border-white">
-                                <p>completed</p>
+                                <p>สำเร็จ</p>
                               </div>
                             );
 
@@ -163,9 +162,7 @@ function ReportManage() {
                         }
                       })()}
                     </td>
-                    {/* <td className="h-[70px] table-cell text-left align-middle px-4">
-                      {data.formattedCreatedAt}
-                    </td> */}
+
                     <td className="h-[70px] table-cell text-left align-middle px-4">
                       <div className="flex justify-end">
                         <Link
@@ -197,7 +194,7 @@ function ReportManage() {
               <IconCom icon="left" size="22" />
             </button>
             <p className="text-[#C0A172] text-[16px] font-medium">
-              Page {currentPage} of {totalPages}
+              หน้า {currentPage} จาก {totalPages}
             </p>
             <button
               onClick={nextPage}

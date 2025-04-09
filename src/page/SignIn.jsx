@@ -1,10 +1,10 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import Nav from "../components/Nav";
+import { Link } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
-import { signIn, getUserData } from "../api/auth";
+import { signIn } from "../api/auth";
 
 function SignIn() {
   const [userData, setUserData] = useState({
@@ -12,9 +12,7 @@ function SignIn() {
     password: "",
   });
 
-  const dispatch = useDispatch();
-
-  const navigate = useNavigate();
+  const userReducer = useSelector((state) => state.user);
 
   const handleInput = (event) => {
     setUserData((prev) => ({
@@ -23,8 +21,7 @@ function SignIn() {
     }));
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSignIn = async () => {
     try {
       const { email, password } = userData;
 
@@ -33,16 +30,26 @@ function SignIn() {
       const token = res.data;
 
       localStorage.setItem("token", token);
+    } catch (error) {
+      console.error("Error sign in:", error);
+      alert("อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง");
+    }
+  };
 
-      alert("เข้าสู่ระบบสำเร็จ");
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await handleSignIn();
 
-      // // Mock SignIn logic
-      // if (values.ำทฟรส === "admin" && values.password === "password") {
-      //   alert("SignIn successful!");
-      //   navigate("/singlemanage");
-      // } else {
-      //   alert("Invalid email or password");
-      // }}
+      const userRole = await userReducer?.userData?.role;
+      console.log(`User Role from Redux : ${userRole}`);
+
+      if (userRole === "admin") {
+        <Link to="/singlemanage" />;
+        alert("เข้าสู่ระบบสำเร็จ");
+      } else {
+        alert("ระบบนี้สำหรับผู้ดูแลระบบเท่านั้น กรุณาติดต่อผู้ดูแลระบบ");
+      }
     } catch (error) {
       console.error("Error sign in:", error);
       alert("อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง");

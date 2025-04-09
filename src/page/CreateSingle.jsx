@@ -1,10 +1,12 @@
 import { useState } from "react";
 import Nav from "../components/Nav";
 import IconCom from "../components/IconCom";
-// import Navmenu from "../components/Navmenu";
 import axios from "axios";
 
+
 import { Link, useNavigate } from "react-router-dom";
+
+import { addSingleMassageDetail } from "../api/massage";
 
 function CreateSingle() {
   const [previewImage1, setPreviewImage1] = useState(null);
@@ -17,8 +19,6 @@ function CreateSingle() {
   });
 
   const [uploadedImage, setUploadedImage] = useState(null);
-
-  const api = import.meta.env.VITE_API_URL;
 
   const navigate = useNavigate();
 
@@ -39,7 +39,7 @@ function CreateSingle() {
 
       try {
         const upload_response = await axios.post(
-          `${api}/image/upload`,
+          "https://senuadpahdocker-production.up.railway.app/image/upload",
           formData,
           {
             headers: {
@@ -79,10 +79,7 @@ function CreateSingle() {
     console.log(formData);
     // Send data to API
     try {
-      const response = await axios.post(
-        `${api}/admin/add-single-massage`,
-        formData
-      );
+      const response = await addSingleMassageDetail(formData);
       console.log("Image:", uploadedImage);
       console.log("Data submitted successfully:", response.data);
       navigate("/singlemanage");
@@ -103,11 +100,11 @@ function CreateSingle() {
               className="flex px-3 py-2 rounded-lg items-center border-2 border-solid border-[#C0A172] text-[#C0A172] transition-all duration-300 hover:bg-[#DBDBDB]"
             >
               <IconCom icon="left" size="18" />
-              <p className="ml-[2px] text-[14px]">Back</p>
+              <p className="ml-[2px] text-[14px]">กลับ</p>
             </Link>
             <div className="ml-[15px] flex flex-col justify-evenly h-full">
               <p className="text-[#C0A172] font-medium text-[20px]">
-                Create Single Massage
+                เพิ่มท่านวดเดี่ยว
               </p>
             </div>
           </div>
@@ -117,7 +114,7 @@ function CreateSingle() {
           >
             <div className="hidden md:flex w-full h-full">
               <div className="w-1/2 h-full text-black text-[14px] font-medium">
-                <p className="mb-[10px]">Image</p>
+                <p className="mb-[10px]">รูป</p>
                 <div className="w-full rounded-md aspect-square bg-[#DBDBDB] my-[10px] relative">
                   {!previewImage1 && (
                     <div className="w-full h-full flex items-center justify-center absolute z-10">
@@ -143,16 +140,16 @@ function CreateSingle() {
                 ></input>
               </div>
               <div className="w-1/2 h-full pl-[20px] text-white text-[14px] font-medium">
-                <p className="mb-[10px] text-black">Name Massage</p>
+                <p className="mb-[10px] text-black">ชื่อท่านวด</p>
                 <input
                   type="text"
                   onChange={handleInput}
                   name="mt_name"
-                  placeholder="Name Massage"
+                  placeholder="ระบุชื่อท่านวด"
                   className="h-[40px] w-full rounded-md pl-2 bg-[#DBDBDB] text-black focus:outline-none
                 focus:ring-0 focus:ring-[#DBDBDB] focus:ring-offset-2 focus:ring-offset-[#C0A172]"
                 />
-                <p className="mt-[15px] mb-[10px] text-black">Detail</p>
+                <p className="mt-[15px] mb-[10px] text-black">รายละเอียด</p>
                 <textarea
                   type="text"
                   onChange={handleInput}
@@ -161,46 +158,50 @@ function CreateSingle() {
                   focus:ring-0 focus:ring-[#DBDBDB] focus:ring-offset-2 focus:ring-offset-[#C0A172]"
                   id=""
                   rows="8"
-                  placeholder="Tell about massage"
+                  placeholder="ระบุรายละเอียด"
                 ></textarea>
-                <p className="mt-[15px] mb-[10px] text-black">Type</p>
+                <p className="mt-[15px] mb-[10px] text-black">ประเภท</p>
                 <select
                   onChange={handleInput}
                   name="mt_type"
                   className="h-[40px] w-full rounded-md px-2 bg-[#DBDBDB] text-black focus:outline-none
                 focus:ring-0 focus:ring-[#DBDBDB] focus:ring-offset-2 focus:ring-offset-[#C0A172]"
                 >
-                  <option>Select Type</option>
-                  <option value="back">Back</option>
-                  <option value="shoulder">Shoulder</option>
-                  <option value="neck">Neck</option>
+                  <option>กรุณาเลือกท่านวด</option>
+                  <option value="neck">คอ</option>
+                  <option value="shoulder">บ่า ไหล่</option>
+                  <option value="back">หลัง</option>
+                  <option value="back">แขน</option>
+                  <option value="shoulder">ขา</option>
                 </select>
-                <p className="mt-[15px] mb-[10px] text-black">Time</p>
+                <p className="mt-[15px] mb-[10px] text-black">
+                  เวลาเรียนโดยประมาณ
+                </p>
                 <select
                   onChange={handleInput}
                   name="mt_time"
                   className="h-[40px] w-full rounded-md px-2 bg-[#DBDBDB] text-black focus:outline-none
                 focus:ring-0 focus:ring-[#DBDBDB] focus:ring-offset-2 focus:ring-offset-[#C0A172]"
                 >
-                  <option>Select Time</option>
-                  <option value="5">5</option>
-                  <option value="10">10</option>
-                  <option value="15">15</option>
-                  <option value="20">20</option>
+                  <option>กรุณาเลือกเวลา</option>
+                  <option value="5">5 นาที</option>
+                  <option value="10">10 นาที</option>
+                  <option value="15">15 นาที</option>
+                  <option value="20">20 นาที</option>
                 </select>
 
-                <p className="mt-[15px] mb-[10px] text-black">Round</p>
+                <p className="mt-[15px] mb-[10px] text-black">จำนวนรอบ</p>
                 <input
                   type="number"
                   onChange={handleInput}
                   name="mt_round"
-                  placeholder="Type Number"
+                  placeholder="ระบุจำนวนรอบ"
                   className="h-[40px] w-full rounded-md pl-2 bg-[#DBDBDB] text-black focus:outline-none
                 focus:ring-0 focus:ring-[#DBDBDB] focus:ring-offset-2 focus:ring-offset-[#C0A172]"
                 />
 
                 <button className="h-[40px] w-full rounded-lg mt-[40px] bg-[#C0A172] text-[18px] text-center font-medium text-white transition-all duration-300 hover:bg-[#C0A172]">
-                  Create Single Massage
+                  เพิ่ม
                 </button>
               </div>
             </div>

@@ -1,9 +1,10 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
 import Nav from "../components/Nav";
 import IconCom from "../components/IconCom";
 import { ChevronDown } from "lucide-react";
-import axios, { all } from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function CreateSet() {
   const [massagedata, setMassagedata] = useState([]);
@@ -22,12 +23,13 @@ function CreateSet() {
   const [isOpen3, setIsOpen3] = useState(false);
 
   const navigate = useNavigate();
-  const api = `${import.meta.env.VITE_API_URL}`;
 
   useEffect(() => {
     const fetchMassage = async () => {
       try {
-        const res = await axios.get(`${api}/massage/single-list`);
+        const res = await axios.get(
+          `https://senuadpahdocker-production.up.railway.app/massage/single-list`
+        );
         console.log("Massage Data", res.data);
         setMassagedata(res.data);
       } catch (error) {
@@ -36,7 +38,7 @@ function CreateSet() {
     };
 
     fetchMassage();
-  }, [api]);
+  }, []);
 
   const handleInput = (event) => {
     setValue((prev) => ({
@@ -47,9 +49,12 @@ function CreateSet() {
 
   async function fetchSingle(id) {
     try {
-      const res = await axios.post(`${api}/massage/single-detail`, {
-        mt_id: id,
-      });
+      const res = await axios.post(
+        `https://senuadpahdocker-production.up.railway.app/massage/single-detail`,
+        {
+          mt_id: id,
+        }
+      );
       const data = res.data;
 
       const onemassage = {
@@ -108,7 +113,7 @@ function CreateSet() {
     console.log("Submit Data:", formData);
     try {
       const response = await axios.post(
-        `${api}/admin/add-set-massage`,
+        `https://senuadpahdocker-production.up.railway.app/admin/add-set-massage`,
         formData
       );
       console.log("Data submitted successfully:", response.data);
@@ -152,11 +157,11 @@ function CreateSet() {
               className="flex px-3 py-2 rounded-lg items-center border-2 border-solid border-[#C0A172] text-[#C0A172] transition-all duration-300 hover:bg-[#DBDBDB]"
             >
               <IconCom icon="left" size="18" />
-              <p className="ml-[2px] text-[14px]">Back</p>
+              <p className="ml-[2px] text-[14px]">กลับ</p>
             </Link>
             <div className="ml-[15px] flex flex-col justify-evenly h-full">
               <p className="text-[#C0A172] font-medium text-[20px]">
-                Create Set of Massage
+                เพิ่มเซตท่านวด
               </p>
             </div>
           </div>
@@ -166,7 +171,7 @@ function CreateSet() {
           >
             <div className="hidden md:flex w-full h-full">
               <div className="w-1/2 h-full text-black text-[14px] font-medium">
-                <p className="mb-[10px]">Select Single Massage</p>
+                <p className="mb-[10px]">ท่านวดในเซต</p>
 
                 {/* Dropdown 1 */}
                 <div className="my-3 w-full">
@@ -184,7 +189,7 @@ function CreateSet() {
                         <span>{selected1.mt_name}</span>
                       </div>
                     ) : (
-                      <span className="text-black">Select single massage</span>
+                      <span className="text-black">เลือกท่านวด</span>
                     )}
                     <ChevronDown className="w-5 h-5 text-black" />
                   </div>
@@ -228,7 +233,7 @@ function CreateSet() {
                         <span>{selected2.mt_name}</span>
                       </div>
                     ) : (
-                      <span className="text-black">Select single massage</span>
+                      <span className="text-black">เลือกท่านวด</span>
                     )}
                     <ChevronDown className="w-5 h-5 text-black" />
                   </div>
@@ -272,7 +277,7 @@ function CreateSet() {
                         <span>{selected3.mt_name}</span>
                       </div>
                     ) : (
-                      <span className="text-black">Select single massage</span>
+                      <span className="text-black">เลือกท่านวด</span>
                     )}
                     <ChevronDown className="w-5 h-5 text-black" />
                   </div>
@@ -301,16 +306,16 @@ function CreateSet() {
                 </div>
               </div>
               <div className="w-1/2 h-full pl-[20px] text-white text-[14px] font-medium">
-                <p className="mb-[10px] text-black">Name Set of Massage</p>
+                <p className="mb-[10px] text-black">ชื่อเซตท่านวด</p>
                 <input
                   type="text"
                   onChange={handleInput}
                   name="ms_name"
-                  placeholder="Name Massage"
+                  placeholder="ระบุชื่อเซตท่านวด"
                   className="h-[40px] w-full rounded-md pl-2 bg-[#DBDBDB] text-black focus:outline-none
                 focus:ring-0 focus:ring-[#DBDBDB] focus:ring-offset-2 focus:ring-offset-[#C0A172]"
                 />
-                <p className="mt-[15px] mb-[10px] text-black">Detail</p>
+                <p className="mt-[15px] mb-[10px] text-black">รายละเอียด</p>
                 <textarea
                   type="text"
                   onChange={handleInput}
@@ -318,11 +323,11 @@ function CreateSet() {
                   className="w-full pl-2 pt-2 rounded-md bg-[#DBDBDB] text-black focus:outline-none
                   focus:ring-0 focus:ring-[#DBDBDB] focus:ring-offset-2 focus:ring-offset-[#C0A172]"
                   rows="8"
-                  placeholder="Tell about massage"
+                  placeholder="ระบุรายละเอียด"
                 ></textarea>
 
                 <button className="h-[40px] w-full rounded-lg mt-[40px] bg-[#C0A172] text-[18px] text-center font-medium text-white transition-all duration-300 hover:bg-[#C0A172]">
-                  Create Set of Massage
+                  เพิ่ม
                 </button>
               </div>
             </div>

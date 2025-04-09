@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import IconCom from "./IconCom";
-import { useNavigate , Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Nav() {
   const [name, setName] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [open, setOpen] = useState(false);
-  const [results, setResults] = useState([]);
   const navigate = useNavigate();
 
   const mockUserData = {
@@ -22,7 +20,6 @@ function Nav() {
       if (mockUserData.valid) {
         setName(mockUserData.username);
         setIsLoggedIn(true);
-        setIsAdmin(mockUserData.role === "admin");
       } else {
         setIsLoggedIn(false);
       }
@@ -33,7 +30,6 @@ function Nav() {
     // Resetting user state
     setName("");
     setIsLoggedIn(false);
-    setIsAdmin(false);
     navigate("/");
   };
 
@@ -61,7 +57,7 @@ function Nav() {
                   : "hover:border-b-4"
               }`}
             >
-              Manage Single Massages
+              จัดการท่านวดเดี่ยว
             </Link>
             <Link
               to="/setofmanage"
@@ -71,7 +67,7 @@ function Nav() {
                   : "hover:border-b-4"
               }`}
             >
-              Manage Set of Massages
+              จัดการเซตท่านวด
             </Link>
             <Link
               to="/usermanage"
@@ -81,7 +77,7 @@ function Nav() {
                   : "hover:border-b-4"
               }`}
             >
-              Manage Users
+              จัดการผู้ใช้
             </Link>
             <Link
               to="/reportmanage"
@@ -91,7 +87,7 @@ function Nav() {
                   : "hover:border-b-4"
               }`}
             >
-              Manage Reports
+              จัดการรายงาน
             </Link>
           </div>
           {/* nav-link */}
@@ -100,13 +96,13 @@ function Nav() {
               {isLoggedIn ? (
                 <>
                   <p className="text-slate-200 text-[20px] font-medium px-3 py-2">
-                    Welcome, {name.toUpperCase()}
+                    ยินต้อนรับ, {name.toUpperCase()}
                   </p>
                   <button
                     onClick={handleLogout}
                     className="transition-all duration-500 bg-[#942423] text-slate-200 hover:bg-[#7D1D1C] hover:text-white px-3 py-2 rounded-md text-[20px] font-medium"
                   >
-                    Logout
+                    ออกจากระบบ
                   </button>
                 </>
               ) : (
@@ -115,13 +111,13 @@ function Nav() {
                     href="/signup"
                     className="transition-all duration-500 bg-black text-slate-200 hover:bg-slate-900 hover:text-white px-3 py-2 rounded-md text-[20px] font-medium"
                   >
-                    Sign up
+                    สมัครบัญชี
                   </a>
                   <a
                     href="/login"
                     className="transition-all duration-500 text-slate-200 hover:bg-[#C0A172] hover:text-white px-3 py-2 rounded-md text-[20px] font-medium"
                   >
-                    Login
+                    เข้าสู่ระบบ
                   </a>
                 </>
               )}
@@ -136,7 +132,7 @@ function Nav() {
                         rounded-md text-slate-200 hover:text-white hover:bg-[#C0A172] focus:outline-none 
                         focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#C0A172] focus:ring-white"
             >
-              <span className="sr-only">Open Main Menu</span>
+              <span className="sr-only">หน้าหลัก</span>
               {open ? (
                 <IconCom icon="x" size="25" />
               ) : (
@@ -160,7 +156,7 @@ function Nav() {
                   className="text-slate-200 hover:bg-[#FF5757] bg-[#FF5757]
                   hover:text-white block px-3 py-2 rounded-md text-[20px] font-medium text-start"
                 >
-                  Logout
+                  ออกจากระบบ
                 </a>
               </>
             ) : (
@@ -169,13 +165,13 @@ function Nav() {
                   href="/signup"
                   className="transition-all duration-500 bg-black block text-slate-200 hover:bg-slate-900 hover:text-white px-3 py-2 rounded-md text-[20px] font-medium text-start"
                 >
-                  Sign up
+                  สมัครบัญชี
                 </a>
                 <a
                   href="/login"
                   className="transition-all duration-500 block text-slate-200 hover:bg-[#C0A172] hover:text-white px-3 py-2 rounded-md text-[20px] font-medium text-start"
                 >
-                  Login
+                  เข้าสู่ระบบ
                 </a>
               </>
             )}

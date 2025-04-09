@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import IconCom from "../components/IconCom";
 import Nav from "../components/Nav";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+
+import { fetchSingleMassageList } from "../api/massage";
+
+import { deleteSingleMassage } from "../api/admin";
 
 function SingleManage() {
   const navigate = useNavigate();
 
   const [massagedata, setMassagedata] = useState([]);
   const [fetchTrigger, setFetchTrigger] = useState(0);
-
-  const api = `${import.meta.env.VITE_API_URL}`;
 
   const [currentPage, setCurrentPage] = useState(1);
   const eventPerPage = 10;
@@ -22,18 +23,18 @@ function SingleManage() {
     : [];
 
   useEffect(() => {
-    const fetchMassage = async () => {
-      try {
-        const res = await axios.get(`${api}/massage/single-list`);
-        console.log("Massage Data", res.data);
-        setMassagedata(res.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
     fetchMassage();
   }, [fetchTrigger]);
+
+  const fetchMassage = async () => {
+    try {
+      const res = await fetchSingleMassageList();
+      console.log("Massage Data", res.data);
+      setMassagedata(res.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const nextPage = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
@@ -44,10 +45,10 @@ function SingleManage() {
   };
 
   const handleDelete = async (id) => {
-    const confirmed = window.confirm("Are you sure to delete this massage?");
+    const confirmed = window.confirm("ยืนยันที่จะลบท่านวดนี้หรือไม่ ?");
     if (confirmed) {
       try {
-        await axios.delete(`${api}/admin/delete-single-massage/${id}`);
+        await deleteSingleMassage(id);
         setFetchTrigger((prev) => prev + 1);
         console.log("Massage deleted successfully");
       } catch (error) {
@@ -63,26 +64,26 @@ function SingleManage() {
         <div className="hidden sm:block my-[30px]">
           <div className="flex justify-between items-center">
             <p className="font-medium text-[#C0A172] text-[35px] md:text-[40px]">
-              Manage Single Massages
+              ท่านวดเดี่ยว
             </p>
             <Link
               to="/createsingle"
               className="min-h-[40px] max-h-[40px] h-full px-2 bg-[#C0A172] flex justify-center items-center rounded-md text-white font-medium transition-all duration-300"
             >
-              + Create Massage
+              + เพิ่มท่านวดเดี่ยว
             </Link>
           </div>
         </div>
         <div className="block sm:hidden my-[30px]">
           <div className="flex flex-col">
             <p className="font-medium text-[#C0A172] text-[35px] md:text-[40px] mb-[20px]">
-              Manage Single Massages
+              ท่านวดเดี่ยว
             </p>
             <Link
               to="/createsingle"
               className="min-h-[40px] max-h-[40px] h-full min-w-[150px] max-w-[150px] w-full bg-[#C0A172] flex justify-center items-center rounded-md text-white font-medium"
             >
-              + Create Massage
+              + เพิ่มท่านวดเดี่ยว
             </Link>
           </div>
         </div>
@@ -97,7 +98,7 @@ function SingleManage() {
                 <IconCom icon="left" size="22" />
               </button>
               <p className="text-[#C0A172] text-[16px] font-medium">
-                Page {currentPage} of {totalPages}
+                หน้า {currentPage} จาก {totalPages}
               </p>
               <button
                 onClick={nextPage}
@@ -112,16 +113,16 @@ function SingleManage() {
             <thead className="table-header-group">
               <tr className="md:table-row hidden">
                 <th className="h-[70px] table-cell text-left align-middle px-4 font-medium">
-                  Name
+                  ชื่อท่านวด
                 </th>
                 <th className="h-[70px] table-cell text-left align-middle px-4 font-medium">
-                  Time
+                  เวลาเรียนโดยประมาณ
                 </th>
                 <th className="h-[70px] table-cell text-left align-middle px-4 font-medium">
-                  Type
+                  ประเภท
                 </th>
                 <th className="h-[70px] table-cell text-left align-middle px-4 font-medium">
-                  Round
+                  รอบ
                 </th>
                 <th className="h-[70px] table-cell text-left align-middle px-4"></th>
               </tr>
@@ -187,7 +188,7 @@ function SingleManage() {
               <IconCom icon="left" size="22" />
             </button>
             <p className="text-[#C0A172] text-[16px] font-medium">
-              Page {currentPage} of {totalPages}
+              หน้า {currentPage} จาก {totalPages}
             </p>
             <button
               onClick={nextPage}
