@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 const api = Axios.create({
-  baseURL: "https://senuadpahdocker-production.up.railway.app/api",
+  baseURL: "https://senuadpahdocker-production.up.railway.app",
   withCredentials: true,
 });
 
