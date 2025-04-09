@@ -8,7 +8,7 @@ import { signInHandler } from "../api/auth";
 
 function SignIn() {
   const [userData, setUserData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -26,20 +26,20 @@ function SignIn() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const { username, password } = userData;
+      const { email, password } = userData;
 
-      const res = await signInHandler(username, password);
+      const res = await signInHandler(email, password);
 
       dispatch({
         type: "SIGNIN",
         payload: res.data,
       });
       // // Mock SignIn logic
-      // if (values.username === "admin" && values.password === "password") {
+      // if (values.ำทฟรส === "admin" && values.password === "password") {
       //   alert("SignIn successful!");
       //   navigate("/singlemanage");
       // } else {
-      //   alert("Invalid username or password");
+      //   alert("Invalid email or password");
       // }}
     } catch (error) {
       console.error("Error sign in:", error);
@@ -62,15 +62,15 @@ function SignIn() {
             type="text"
             className="h-[40px] w-[340px] mt-[20px] rounded-md pl-2 bg-[#DBDBDB] text-black focus:outline-none
                       focus:ring-0 focus:ring-[#DBDBDB] focus:ring-offset-2 focus:ring-offset-[#C0A172]"
-            placeholder="Your username"
+            placeholder="กรุณากรอก Gmail"
             onChange={handleInput}
-            name="username"
+            name="email"
           />
           <input
             type="password"
             className="h-[40px] w-[340px] mt-[20px] rounded-md pl-2 bg-[#DBDBDB] text-black focus:outline-none
                       focus:ring-0 focus:ring-[#DBDBDB] focus:ring-offset-2 focus:ring-offset-[#C0A172]"
-            placeholder="Your password"
+            placeholder="กรุณากรอกรหัสผ่าน"
             onChange={handleInput}
             name="password"
           />
