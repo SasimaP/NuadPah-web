@@ -21,13 +21,14 @@ function App() {
   useEffect(() => {
     const idTokenResult = localStorage.getItem("token");
     if (idTokenResult) {
-      const response = getUserData(idTokenResult);
-      dispatch({
-        type: "SIGNIN",
-        payload: {
-          userData: response.data,
-          token: idTokenResult,
-        },
+      getUserData(idTokenResult).then((response) => {
+        dispatch({
+          type: "SIGNIN",
+          payload: {
+            userData: response.data,
+            token: idTokenResult,
+          },
+        });
       });
     }
   });
