@@ -1,12 +1,14 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 
 import { signIn } from "../api/auth";
 
 function SignIn() {
+  const navigate = useNavigate();
+
   const [userData, setUserData] = useState({
     email: "",
     password: "",
@@ -45,7 +47,7 @@ function SignIn() {
       console.log(`User Role from Redux : ${userRole}`);
 
       if (userRole === "admin") {
-        <Link to="/singlemanage" />;
+        navigate("/singlemanage");
         alert("เข้าสู่ระบบสำเร็จ");
       } else {
         alert("ระบบนี้สำหรับผู้ดูแลระบบเท่านั้น กรุณาติดต่อผู้ดูแลระบบ");

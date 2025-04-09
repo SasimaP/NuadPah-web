@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
 import Nav from "../components/Nav";
 import IconCom from "../components/IconCom";
@@ -34,7 +35,7 @@ function EditReport() {
     e.preventDefault();
 
     const updatedData = {
-      status_index: parseInt(status),  // Just send the numeric value
+      status_index: parseInt(status), // Just send the numeric value
     };
 
     axios
