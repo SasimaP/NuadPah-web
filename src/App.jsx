@@ -12,7 +12,7 @@ import SignIn from "./page/SignIn";
 
 import { Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
-import { getUserData } from "../api/auth";
+import { getUserData } from "./api/auth";
 
 import { useDispatch } from "react-redux";
 
